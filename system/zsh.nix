@@ -2,7 +2,6 @@
 
 {
   environment.systemPackages = with pkgs; [
-    oh-my-zsh
     zsh
     zsh-autoenv
     zsh-autosuggestions
@@ -25,19 +24,6 @@
         "\\#*" = "fg=10";
         "rm -rf*" = "fg=white,bold,bg=red";
       };
-    };
-
-    ohMyZsh = {
-      enable = true;
-      theme = "minimal";
-      plugins = [
-        "docker"
-        "git"
-        "pip"
-        "python"
-        "tmux"
-        "vim-interaction"
-      ];
     };
   };
 }

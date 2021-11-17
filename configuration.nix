@@ -8,19 +8,17 @@
   imports = [
     ./hardware-configuration.nix
 
-    # Subsystems
-    ./subsystems/desktop.nix
-    ./subsystems/docker.nix
-    ./subsystems/printing.nix
-
-    # Tools
-    ./tools/gnupg.nix
-    ./tools/vim.nix
-    ./tools/zsh.nix
-
-    # Users
+    # User-level modules
     ./users/chris
     ./users/play.nix
+
+    # System-level modules
+    ./system/desktop.nix
+    ./system/docker.nix
+    ./system/gnupg.nix
+    ./system/printing.nix
+    ./system/vim.nix
+    ./system/zsh.nix
   ];
 
   # Use the systemd-boot EFI boot loader.

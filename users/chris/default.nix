@@ -1,4 +1,4 @@
-{ config, pkgs, ...}:
+{ config, pkgs, ... }:
 
 let
   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-21.05.tar.gz";
@@ -8,7 +8,7 @@ let
   };
 in
 {
-  imports = [ 
+  imports = [
     (import "${home-manager}/nixos")
   ];
 
@@ -40,5 +40,6 @@ in
     home.packages = import ./software.nix { pkgs = pkgs; };
 
     programs.git = import ./git.nix { who = user; };
+    programs.zsh = import ./zsh.nix { pkgs = pkgs; };
   };
 }
