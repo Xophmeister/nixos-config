@@ -20,10 +20,14 @@ in
   };
 
   security.sudo.extraRules = [
-    # Let me use Vim and rebuild NixOS without any fuss
+    # Let me use Git, Vim and rebuild NixOS without any fuss
     {
       users = [ user.id ];
       commands = [
+        {
+          command = "/run/current-system/sw/bin/git";
+          options = [ "SETENV" "NOPASSWD" ];
+        }
         {
           command = "/run/current-system/sw/bin/vim";
           options = [ "SETENV" "NOPASSWD" ];
