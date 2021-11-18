@@ -22,6 +22,7 @@
 
     # Useful tools
     anki
+    bitwarden bitwarden-cli
     signal-desktop
     slack
 
