@@ -21,6 +21,7 @@ in
     {
       users = [ user.id ];
       commands = [
+        # FIXME sudo is still asking for a password with Git (?)
         {
           command = "/run/current-system/sw/bin/git";
           options = [ "SETENV" "NOPASSWD" ];
