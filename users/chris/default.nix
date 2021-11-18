@@ -2,10 +2,7 @@
 
 let
   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-21.05.tar.gz";
-  user = {
-    id = "chris";
-    name = "Christopher Harrison";
-  };
+  user = import ./me.nix;
 in
 {
   imports = [
@@ -43,7 +40,7 @@ in
   home-manager.users."${user.id}" = {
     home.packages = import ./software.nix { pkgs = pkgs; };
 
-    programs.git = import ./git.nix { who = user; };
+    programs.git = import ./git.nix { pkgs = pkgs; user = user; };
     programs.zsh = import ./zsh.nix { pkgs = pkgs; };
   };
 }
