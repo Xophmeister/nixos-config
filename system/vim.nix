@@ -1,9 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    vimHugeX
-  ];
-
+  environment.systemPackages = [ pkgs.vim ];
   programs.vim.defaultEditor = true;
 }

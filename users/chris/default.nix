@@ -43,6 +43,7 @@ in
 
     programs.zsh = import ./zsh.nix { pkgs = pkgs; };
     programs.tmux = import ./tmux.nix { pkgs = pkgs; };
+    programs.vim = import ./vim.nix { pkgs = pkgs; };
     programs.git = import ./git.nix { pkgs = pkgs; user = user; };
   };
 }
