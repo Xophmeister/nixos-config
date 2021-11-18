@@ -21,7 +21,8 @@ in
     {
       users = [ user.id ];
       commands = [
-        # FIXME sudo is still asking for a password with Git (?)
+        # FIXME These are the system-wide paths for git and Vim, but we
+        # are using the Home Manager versions...
         {
           command = "/run/current-system/sw/bin/git";
           options = [ "SETENV" "NOPASSWD" ];

@@ -1,5 +1,8 @@
 setopt extendedglob
 
+# Environment variables
+export SHELLCHECK_OPTS="-e SC2155"
+
 # I don't like the right prompt
 unset RPS1
 
