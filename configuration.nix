@@ -57,13 +57,12 @@
 
     # Useful tools
     bash
-    coreutils-full
+    bc coreutils-full gawk gnugrep gnused
+    gnutar gzip xz zip unzip
     curl wget
-    gawk
     gitFull git-lfs
     jq yq-go
     pv
-    zip unzip
 
     # Internet
     firefox

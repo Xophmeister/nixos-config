@@ -33,7 +33,6 @@
     bind -r L resize-pane -R 5                        # Resize pane rightwards
 
     # TODO Copy and paste
-    # TODO Wheel scroll
 
     # DIY Powerline :)
     set-option -g status on
