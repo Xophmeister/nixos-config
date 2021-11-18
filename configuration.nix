@@ -63,7 +63,6 @@
     gitFull git-lfs
     jq yq-go
     pv
-    tmux
     zip unzip
 
     # Internet

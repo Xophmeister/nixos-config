@@ -1,8 +1,5 @@
 { pkgs }: with pkgs; [
 
-    # tmux Plugins
-    tmuxPlugins.tmux-colors-solarized
-
     # Vim Plugins
     vimPlugins.ale
     vimPlugins.rust-vim

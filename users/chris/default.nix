@@ -41,7 +41,8 @@ in
   home-manager.users."${user.id}" = {
     home.packages = import ./software.nix { pkgs = pkgs; };
 
-    programs.git = import ./git.nix { pkgs = pkgs; user = user; };
     programs.zsh = import ./zsh.nix { pkgs = pkgs; };
+    programs.tmux = import ./tmux.nix { pkgs = pkgs; };
+    programs.git = import ./git.nix { pkgs = pkgs; user = user; };
   };
 }
