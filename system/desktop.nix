@@ -22,7 +22,7 @@
     # Be selective about what GNOME tools we want
     gnome.core-utilities.enable = false;
   };
-  
+
   # Fix for Gnome/GDM crash at login
   # https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services = {
@@ -48,5 +48,8 @@
     gnome.sushi
   ];
 
-  programs.dconf.enable = true;
+  programs = {
+    dconf.enable = true;
+    seahorse.enable = true;
+  };
 }
