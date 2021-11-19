@@ -39,7 +39,7 @@ set ttymouse=xterm2
 set undolevels=1000
 set undoreload=10000
 
-set clipboard=unnamed
+set clipboard^=unnamed,unnamedplus
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tagbar#enabled = 1
