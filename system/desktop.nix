@@ -46,6 +46,7 @@
     gnome.nautilus
     gnome.seahorse
     gnome.sushi
+    wl-clipboard
   ];
 
   programs = {
