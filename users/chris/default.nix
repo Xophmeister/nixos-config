@@ -17,11 +17,9 @@ in
   };
 
   security.sudo.extraRules = let
-    # DRAGONS BE HERE sudoer rules for user-installed binaries is
-    # probably not a great idea...
-    # FIXME Use the HM profile directory, rather than hard coding
-    # profileDirectory = home-manager.users."${user.id}".home.profileDirectory;
-    profileDirectory = "/home/${user.id}/.nix-profile";
+    # DRAGONS BE HERE
+    # sudoer rules for user binaries is probably not a great idea...
+    profileDirectory = config.home-manager.users."${user.id}".home.profileDirectory;
   in
   [
     # Let me use Git, Vim and rebuild NixOS without any fuss
