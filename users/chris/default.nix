@@ -16,19 +16,24 @@ in
     shell = pkgs.zsh;
   };
 
-  security.sudo.extraRules = [
+  security.sudo.extraRules = let
+    # DRAGONS BE HERE sudoer rules for user-installed binaries is
+    # probably not a great idea...
+    # FIXME Use the HM profile directory, rather than hard coding
+    # profileDirectory = home-manager.users."${user.id}".home.profileDirectory;
+    profileDirectory = "/home/${user.id}/.nix-profile";
+  in
+  [
     # Let me use Git, Vim and rebuild NixOS without any fuss
     {
       users = [ user.id ];
       commands = [
-        # FIXME These are the system-wide paths for git and Vim, but we
-        # are using the Home Manager versions...
         {
-          command = "/run/current-system/sw/bin/git";
+          command = "${profileDirectory}/bin/git";
           options = [ "SETENV" "NOPASSWD" ];
         }
         {
-          command = "/run/current-system/sw/bin/vim";
+          command = "${profileDirectory}/bin/vim";
           options = [ "SETENV" "NOPASSWD" ];
         }
         {
