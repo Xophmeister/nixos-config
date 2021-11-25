@@ -1,11 +1,20 @@
-{ config, pkgs, ...}:
+{ config, pkgs, ... }:
 
+let
+  user = "play";
+in
 {
   programs.steam.enable = true;
 
-  users.users.play = {
+  users.users."${user}" = {
     description = "All Work And No Play";
     isNormalUser = true;
-    packages = with pkgs; [ steam ];
   };
+
+  home-manager.users."${user}".home.packages = with pkgs; [
+    steam
+    gnome.gnome-mines
+    gnome.gnome-chess
+    gnome.gnome-sudoku
+  ];
 }

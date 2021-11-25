@@ -1,14 +1,9 @@
 { config, pkgs, ... }:
 
 let
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-21.05.tar.gz";
   user = import ./me.nix;
 in
 {
-  imports = [
-    (import "${home-manager}/nixos")
-  ];
-
   users.users."${user.id}" = {
     description = user.name;
     isNormalUser = true;
