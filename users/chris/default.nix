@@ -20,7 +20,7 @@ in
     profileDirectory = config.home-manager.users."${user.id}".home.profileDirectory;
   in
   [
-    # Let me use Git, Vim and rebuild NixOS without any fuss
+    # Let me use Git, Vim and rebuild/clean-up NixOS without any fuss
     {
       users = [ user.id ];
       commands = [
@@ -34,6 +34,10 @@ in
         }
         {
           command = "/run/current-system/sw/bin/nixos-rebuild";
+          options = [ "SETENV" "NOPASSWD" ];
+        }
+        {
+          command = "/run/current-system/sw/bin/nix-collect-garbage";
           options = [ "SETENV" "NOPASSWD" ];
         }
       ];
