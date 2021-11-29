@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 
 let
-  user = import ./me.nix;
+  user = {
+    id = "chris";
+    name = "Christopher Harrison";
+  };
 in
 {
   users.users."${user.id}" = {

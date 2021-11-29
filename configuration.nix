@@ -57,6 +57,7 @@
 
     # Internet
     firefox
+    ungoogled-chromium
     thunderbird
   ];
 
