@@ -3,7 +3,7 @@
   lfs.enable = true;
 
   userName = user.name;
-  userEmail = "git@acc.xoph.co";
+  userEmail = user.mail.work;
 
   extraConfig = {
     credential.helper = "${

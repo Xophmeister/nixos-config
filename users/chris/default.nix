@@ -4,6 +4,10 @@ let
   user = {
     id = "chris";
     name = "Christopher Harrison";
+    mail = {
+      # TODO Obfuscate this...
+      work = "christopher.harrison@tweag.io";
+    };
   };
 in
 {
