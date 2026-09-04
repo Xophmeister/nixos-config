@@ -13,6 +13,8 @@
   imports = [
     ./hardware-configuration.nix
 
+    ./unstable.nix # The `unstable` module argument
+
     ./users # User-level modules
     ./system # System-level modules
   ];

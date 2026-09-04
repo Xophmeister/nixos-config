@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  unstable,
   ...
 }:
 
@@ -14,12 +15,6 @@ let
       work = "christopher.harrison@tweag.io";
     };
   };
-
-  unstable =
-    import (builtins.fetchTarball "https://github.com/nixos/nixpkgs/archive/nixos-unstable.tar.gz")
-      {
-        config = pkgs.config;
-      };
 
   buckets = [
     "xoph-documents"
