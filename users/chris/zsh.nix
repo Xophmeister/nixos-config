@@ -11,7 +11,14 @@
     "sudo" = "sudo -E";
   };
 
-  initExtra = builtins.readFile ./.zshrc;
+  initContent =
+    let
+      # Temporary fix for minimal theme
+      # https://github.com/ohmyzsh/ohmyzsh/issues/12328#issuecomment-2043492331
+      before = pkgs.lib.mkBefore "zstyle ':omz:alpha:lib:git' async-prompt no";
+      extra = builtins.readFile ./.zshrc;
+    in
+    pkgs.lib.mkMerge [ before extra ];
 
   oh-my-zsh = {
     enable = true;
@@ -21,6 +28,8 @@
       "git"
       "pip"
       "python"
+      "rust"
+      "terraform"
       "vim-interaction"
     ];
   };

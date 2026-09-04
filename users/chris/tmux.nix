@@ -4,7 +4,7 @@
   enable = true;
 
   keyMode = "vi";
-  prefix = "C-a";  # screen muscle memory :P
+  prefix = "C-a"; # screen muscle memory :P
   escapeTime = 1;
   terminal = "screen-256color";
 

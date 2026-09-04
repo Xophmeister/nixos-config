@@ -13,7 +13,7 @@
 
     autosuggestions = {
       enable = true;
-      strategy = "match_prev_cmd";
+      strategy = ["match_prev_cmd"];
       highlightStyle = "fg=10";
     };
 
