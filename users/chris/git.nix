@@ -2,12 +2,14 @@
   enable = true;
   lfs.enable = true;
 
-  userName = user.name;
-  userEmail = user.mail.work;
-
   ignores = import ./.gitignore.nix;
 
-  extraConfig = {
+  settings = {
+    user = {
+      name = user.name;
+      email = user.mail.work;
+    };
+
     push.autoSetupRemote = true;
 
     credential.helper = "${

@@ -2,9 +2,16 @@
 
 {
   services = {
-    displayManager.autoLogin = {
-      enable = true;
-      user = "chris";
+    # GNOME with GDM
+    desktopManager.gnome.enable = true;
+
+    displayManager = {
+      gdm.enable = true;
+
+      autoLogin = {
+        enable = true;
+        user = "chris";
+      };
     };
 
     xserver = {
@@ -12,10 +19,6 @@
 
       # TODO/FIXME Euro on 5 and pound on 4...
       xkb.options = "eurosign:5";
-
-      # GNOME with GDM
-      desktopManager.gnome.enable = true;
-      displayManager.gdm.enable = true;
     };
 
     # Be selective about what GNOME tools we want
