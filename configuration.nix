@@ -35,11 +35,11 @@
   # Set your time zone.
   time.timeZone = "Europe/London";
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
-  networking.interfaces.wlp0s20f3.useDHCP = true;
+  # No per-interface useDHCP here: NetworkManager (pulled in by the GNOME
+  # module) manages every interface. Declaring
+  # networking.interfaces.<iface>.useDHCP would also switch on
+  # networking.dhcpcd, leaving two DHCP clients contending for the same
+  # lease and resolv.conf.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
