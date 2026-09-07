@@ -6,157 +6,247 @@
 # | uniq
 
 [
-  "*~"
-  "*$py.class"
-  "*.a"
-  "*.app"
-  "*.aux"
-  "build/"
-  "cabal-dev"
-  "cabal.project.local"
-  "cabal.project.local~"
-  ".cabal-sandbox/"
-  "cabal.sandbox.config"
-  ".cache"
-  "celerybeat.pid"
-  "celerybeat-schedule"
-  "*.chi"
-  "*.chs.h"
-  "*.cmd"
-  "*.cover"
-  "cover/"
-  ".coverage"
-  ".coverage.*"
-  "coverage.xml"
-  "crash.log"
-  "cython_debug/"
-  "*.d"
-  "db.sqlite3"
-  "db.sqlite3-journal"
-  "develop-eggs/"
-  "dist"
-  "dist-*"
-  "dist/"
-  "dkms.conf"
-  "*.dll"
-  ".dmypy.json"
-  "dmypy.json"
-  "docs/_build/"
-  "downloads/"
-  "*.dSYM/"
-  "*.dylib"
-  "*.dyn_hi"
-  "*.dyn_o"
-  "*.egg"
-  "*.egg-info/"
-  ".eggs/"
-  "eggs/"
-  "*.elf"
-  ".env"
-  "env/"
-  "ENV/"
-  "env.bak/"
-  "*.eventlog"
-  "*.exe"
-  "*.exp"
-  "*.gch"
-  ".ghc.environment.*"
-  "*.hex"
-  "*.hi"
-  "*.hie"
-  "*.hp"
-  ".hpc"
-  ".hsenv"
-  ".HTF/"
-  "htmlcov/"
-  ".hypothesis/"
-  "*.i*86"
-  "*.idb"
-  "*.ilk"
-  ".installed.cfg"
-  ".ipynb_checkpoints"
-  "ipython_config.py"
-  "*.ko"
-  "*.la"
-  "*.lib"
-  #"lib/"
-  #"lib64/"
-  "*.lo"
-  "local_settings.py"
-  "*.log"
-  "*.manifest"
-  "MANIFEST"
-  "*.map"
-  "Mkfile.old"
-  "*.mo"
-  "*.mod*"
-  "modules.order"
-  "Module.symvers"
-  ".mypy_cache/"
-  ".netrwhist"
-  "nosetests.xml"
-  ".nox/"
-  "*.o"
-  "*.obj"
-  "*.out"
-  "*_override.tf"
-  "override.tf"
-  "*_override.tf.json"
-  "override.tf.json"
-  "parts/"
-  "*.pch"
-  "*.pdb"
-  "pip-delete-this-directory.txt"
-  "pip-log.txt"
-  "*.pot"
-  "*.prof"
-  "profile_default/"
-  ".pybuilder/"
+  ### Python ###
+  # Byte-compiled / optimized / DLL files
   "__pycache__/"
   "*.py[cod]"
-  "*.py,cover"
-  "__pypackages__/"
-  ".pyre/"
-  ".pytest_cache/"
-  ".Python"
-  ".pytype/"
-  ".ropeproject"
-  "*.sage.py"
-  "[._]s[a-rt-v][a-z]"
-  "[._]*.s[a-v][a-z]"
-  ".scrapy"
-  "sdist/"
-  "Session.vim"
-  "Sessionx.vim"
-  "share/python-wheels/"
-  "/site"
+  "*$py.class"
+
+  # C extensions
   "*.so"
-  "*.so.*"
+
+  # Distribution / packaging
+  ".Python"
+  "build/"
+  "develop-eggs/"
+  "dist/"
+  "downloads/"
+  "eggs/"
+  ".eggs/"
+  "lib/"
+  "lib64/"
+  "parts/"
+  "sdist/"
+  "var/"
+  "wheels/"
+  "share/python-wheels/"
+  "*.egg-info/"
+  ".installed.cfg"
+  "*.egg"
+  "MANIFEST"
+
+  # PyInstaller
+  #  Usually these files are written by a python script from a template
+  #  before PyInstaller builds the exe, so as to inject date/other infos into it.
+  "*.manifest"
   "*.spec"
+
+  # Installer logs
+  "pip-log.txt"
+  "pip-delete-this-directory.txt"
+
+  # Unit test / coverage reports
+  "htmlcov/"
+  ".tox/"
+  ".nox/"
+  ".coverage"
+  ".coverage.*"
+  ".cache"
+  "nosetests.xml"
+  "coverage.xml"
+  "*.cover"
+  "*.py,cover"
+  ".hypothesis/"
+  ".pytest_cache/"
+  "cover/"
+
+  # Translations
+  "*.mo"
+  "*.pot"
+
+  # Django stuff:
+  "*.log"
+  "local_settings.py"
+  "db.sqlite3"
+  "db.sqlite3-journal"
+
+  # Flask stuff:
+  "instance/"
+  ".webassets-cache"
+
+  # Scrapy stuff:
+  ".scrapy"
+
+  # Sphinx documentation
+  "docs/_build/"
+
+  # PyBuilder
+  ".pybuilder/"
+  "target/"
+
+  # Jupyter Notebook
+  ".ipynb_checkpoints"
+
+  # IPython
+  "profile_default/"
+  "ipython_config.py"
+
+  # pyenv
+  #   For a library or package, you might want to ignore these files since the code is
+  #   intended to run in multiple environments; otherwise, check them in:
+  # .python-version
+
+  # pipenv
+  #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+  #   However, in case of collaboration, if having platform-specific dependencies or dependencies
+  #   having no cross-platform support, pipenv may install dependencies that don't work, or not
+  #   install all needed dependencies.
+  #Pipfile.lock
+
+  # poetry
+  #   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+  #   This is especially recommended for binary packages to ensure reproducibility, and is more
+  #   commonly ignored for libraries.
+  #   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+  #poetry.lock
+
+  # pdm
+  #   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+  #pdm.lock
+  #   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
+  #   in version control.
+  #   https://pdm.fming.dev/#use-with-ide
+  ".pdm.toml"
+
+  # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+  "__pypackages__/"
+
+  # Celery stuff
+  "celerybeat-schedule"
+  "celerybeat.pid"
+
+  # SageMath parsed files
+  "*.sage.py"
+
+  # Environments
+  ".env"
+  ".venv"
+  "env/"
+  "venv/"
+  "ENV/"
+  "env.bak/"
+  "venv.bak/"
+
+  # Spyder project settings
   ".spyderproject"
   ".spyproject"
-  "[._]ss[a-gi-z]"
-  ".stack-work/"
-  "*.su"
-  "!*.svg"
-  "[._]*.sw[a-p]"
-  "[._]sw[a-p]"
-  "tags"
-  "target/"
+
+  # Rope project settings
+  ".ropeproject"
+
+  # mkdocs documentation
+  "/site"
+
+  # mypy
+  ".mypy_cache/"
+  ".dmypy.json"
+  "dmypy.json"
+
+  # Pyre type checker
+  ".pyre/"
+
+  # pytype static type analyzer
+  ".pytype/"
+
+  # Cython debug symbols
+  "cython_debug/"
+
+  # PyCharm
+  #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+  #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+  #  and can be added to the global gitignore or merged into this file.  For a more nuclear
+  #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+  #.idea/
+
+  ### Python Patch ###
+  # Poetry local configuration file - https://python-poetry.org/docs/configuration/#local-configuration
+  "poetry.toml"
+
+  # ruff
+  ".ruff_cache/"
+
+  # LSP config files
+  "pyrightconfig.json"
+
+  ### Rust ###
+  # Generated by Cargo
+  # will have compiled files and executables
+  "debug/"
+
+  # Remove Cargo.lock from gitignore if creating an executable, leave it for libraries
+  # More information here https://doc.rust-lang.org/cargo/guide/cargo-toml-vs-cargo-lock.html
+  "Cargo.lock"
+
+  # These are backup files generated by rustfmt
+  "**/*.rs.bk"
+
+  # MSVC Windows builds of rustc generate these, which store debugging information
+  "*.pdb"
+
+  ### Terraform ###
+  # Local .terraform directories
   "**/.terraform/*"
-  ".terraformrc"
-  "terraform.rc"
+
+  # .tfstate files
   "*.tfstate"
   "*.tfstate.*"
+
+  # Crash log files
+  "crash.log"
+  "crash.*.log"
+
+  # Exclude all .tfvars files, which are likely to contain sensitive data, such as
+  # password, private keys, and other secrets. These should not be part of version
+  # control as they are data points which are potentially sensitive and subject
+  # to change depending on the environment.
   "*.tfvars"
-  ".tmp_versions/"
-  ".tox/"
+  "*.tfvars.json"
+
+  # Ignore override files as they are usually used to override resources locally and so
+  # are not checked in
+  "override.tf"
+  "override.tf.json"
+  "*_override.tf"
+  "*_override.tf.json"
+
+  # Include override files you do wish to add to version control using negated pattern
+  # !example_override.tf
+
+  # Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+  # example: *tfplan*
+
+  # Ignore CLI configuration files
+  ".terraformrc"
+  "terraform.rc"
+
+  ### Vim ###
+  # Swap
+  "[._]*.s[a-v][a-z]"
+  "!*.svg"
+  "[._]*.sw[a-p]"
+  "[._]s[a-rt-v][a-z]"
+  "[._]ss[a-gi-z]"
+  "[._]sw[a-p]"
+
+  # Session
+  "Session.vim"
+  "Sessionx.vim"
+
+  # Temporary
+  ".netrwhist"
+  "*~"
+  # Auto-generated tag files
+  "tags"
+  # Persistent undo
   "[._]*.un~"
-  "var/"
-  ".venv"
-  "venv/"
-  "venv.bak/"
-  ".webassets-cache"
-  "wheels/"
-  "*.x86_64"
 ]

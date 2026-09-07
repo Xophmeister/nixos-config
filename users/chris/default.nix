@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  unstable,
   ...
 }:
 
@@ -140,15 +139,25 @@ in
     ];
 
   home-manager.users."${user.id}" = {
+    # These are home-manager modules, not functions returning option values,
+    # so they merge like any other module: each may use mkIf/mkDefault, split
+    # a definition across files, or read `config`. `unstable` reaches them
+    # through home-manager.extraSpecialArgs in ../default.nix.
+    imports = [
+      ./software.nix
+      ./zsh.nix
+      ./tmux.nix
+      ./tmate.nix
+      ./vim.nix
+      ./git.nix
+    ];
+
+    # `user` is this user's identity, so it is injected per-user rather than
+    # through extraSpecialArgs, which would also hand chris's details to
+    # every other home-manager user.
+    _module.args.user = user;
+
     home.stateVersion = "21.05";
-
-    home.packages = import ./software.nix { inherit config pkgs unstable; };
-
-    programs.zsh = import ./zsh.nix { inherit pkgs; };
-    programs.tmux = import ./tmux.nix { inherit pkgs; };
-    programs.tmate = import ./tmate.nix { inherit pkgs; };
-    programs.vim = import ./vim.nix { pkgs = unstable; };
-    programs.git = import ./git.nix { inherit pkgs user; };
 
     # Custom Vim ftplugins
     home.file.".vim/ftplugin".source = ./.vim-ftplugin;

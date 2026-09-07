@@ -1,16 +1,18 @@
-{ pkgs }:
+{ pkgs, ... }:
 
 {
-  enable = true;
+  programs.tmux = {
+    enable = true;
 
-  keyMode = "vi";
-  prefix = "C-a"; # screen muscle memory :P
-  escapeTime = 1;
-  terminal = "screen-256color";
+    keyMode = "vi";
+    prefix = "C-a"; # screen muscle memory :P
+    escapeTime = 1;
+    terminal = "screen-256color";
 
-  plugins = with pkgs.tmuxPlugins; [
-    tmux-colors-solarized
-  ];
+    plugins = with pkgs.tmuxPlugins; [
+      tmux-colors-solarized
+    ];
 
-  extraConfig = builtins.readFile ./.tmux.conf;
+    extraConfig = builtins.readFile ./.tmux.conf;
+  };
 }

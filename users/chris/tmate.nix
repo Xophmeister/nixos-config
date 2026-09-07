@@ -1,6 +1,8 @@
-{ pkgs }:
+{ ... }:
 
 {
-  enable = true;
-  extraConfig = builtins.readFile ./.tmux.conf;
+  programs.tmate = {
+    enable = true;
+    extraConfig = builtins.readFile ./.tmux.conf;
+  };
 }

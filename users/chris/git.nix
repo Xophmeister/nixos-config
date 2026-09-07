@@ -1,19 +1,23 @@
-{ pkgs, user }: {
-  enable = true;
-  lfs.enable = true;
+{ pkgs, user, ... }:
 
-  ignores = import ./.gitignore.nix;
+{
+  programs.git = {
+    enable = true;
+    lfs.enable = true;
 
-  settings = {
-    user = {
-      name = user.name;
-      email = user.mail.work;
+    ignores = import ./.gitignore.nix;
+
+    settings = {
+      user = {
+        name = user.name;
+        email = user.mail.work;
+      };
+
+      push.autoSetupRemote = true;
+
+      credential.helper = "${
+          pkgs.git.override { withLibsecret = true; }
+        }/bin/git-credential-libsecret";
     };
-
-    push.autoSetupRemote = true;
-
-    credential.helper = "${
-        pkgs.git.override { withLibsecret = true; }
-      }/bin/git-credential-libsecret";
   };
 }
