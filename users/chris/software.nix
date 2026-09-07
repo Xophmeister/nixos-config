@@ -46,6 +46,7 @@ in
     unstable.shellcheck
     stable.gh
     unstable.git-fame
+    stable.git-filter-repo
     unstable.cloc
     unstable.pre-commit
     unstable.reuse

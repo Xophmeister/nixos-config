@@ -139,10 +139,14 @@
     thunderbolt
 
     # Useful tools
+    #
+    # Nothing git-shaped here any more. git is a user-level concern in this
+    # config: home-manager owns the package, its config and the LFS filters,
+    # and nothing runs git as root -- the sudo rules that once did were
+    # dropped along with gitFull. A git-lfs or git-filter-repo installed
+    # system-wide would be a helper for a git that is not on the system PATH.
     bc
     borgbackup
-    git-filter-repo
-    git-lfs
     jq
     s3fs
     tree
