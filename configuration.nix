@@ -143,7 +143,6 @@
     borgbackup
     git-filter-repo
     git-lfs
-    gitFull
     jq
     s3fs
     tree

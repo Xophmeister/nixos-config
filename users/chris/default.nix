@@ -95,48 +95,42 @@ in
     wantedBy = [ "multi-user.target" ];
   };
 
-  security.sudo.extraRules =
-    let
-      # DRAGONS BE HERE
-      # sudoer rules for user binaries is probably not a great idea...
-      profileDirectory = config.home-manager.users."${user.id}".home.profileDirectory;
-    in
-    [
-      # Let me use Git, Vim and rebuild/clean-up NixOS without any fuss
-      {
-        users = [ user.id ];
-        commands = [
-          {
-            command = "${profileDirectory}/bin/git";
-            options = [
-              "SETENV"
-              "NOPASSWD"
-            ];
-          }
-          {
-            command = "${profileDirectory}/bin/vim";
-            options = [
-              "SETENV"
-              "NOPASSWD"
-            ];
-          }
-          {
-            command = "/run/current-system/sw/bin/nixos-rebuild";
-            options = [
-              "SETENV"
-              "NOPASSWD"
-            ];
-          }
-          {
-            command = "/run/current-system/sw/bin/nix-collect-garbage";
-            options = [
-              "SETENV"
-              "NOPASSWD"
-            ];
-          }
-        ];
-      }
-    ];
+  # Passwordless sudo for the two commands used often enough to be worth it.
+  #
+  # git and vim used to be here too, from when the configuration lived in
+  # /etc/nixos and had to be edited as root. It is a symlink to a checkout
+  # owned by chris now, so neither is needed -- which is just as well: both
+  # spawn a root shell (`:!sh`, `git -c core.pager=...`), so granting them
+  # NOPASSWD was equivalent to granting it for everything.
+  #
+  # SETENV is kept deliberately. chris is in wheel, which already carries
+  # `SETENV: ALL`, but sudo applies the *last* matching rule rather than the
+  # most permissive one -- so without it here, the `sudo -E` alias in
+  # zsh.nix would be refused for exactly these two commands.
+  #
+  # nixos-rebuild still amounts to root by another route, since it activates
+  # whatever the configuration says. That is the point of it, not an oversight.
+  security.sudo.extraRules = [
+    {
+      users = [ user.id ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/nixos-rebuild";
+          options = [
+            "SETENV"
+            "NOPASSWD"
+          ];
+        }
+        {
+          command = "/run/current-system/sw/bin/nix-collect-garbage";
+          options = [
+            "SETENV"
+            "NOPASSWD"
+          ];
+        }
+      ];
+    }
+  ];
 
   home-manager.users."${user.id}" = {
     # These are home-manager modules, not functions returning option values,

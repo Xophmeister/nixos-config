@@ -41,8 +41,24 @@
       fsType = "vfat";
     };
 
+  # Swap sits in its own partition outside the LUKS container, so without
+  # this anything paged out -- keys, buffers, documents -- would be readable
+  # from the powered-off disk despite the encrypted root. randomEncryption
+  # re-keys it from /dev/urandom on every boot, so nothing survives one.
+  #
+  # The device must be named by-partuuid, not by-uuid: re-keying re-runs
+  # mkswap, which erases the swap signature and with it the by-uuid name.
+  # NixOS asserts on that combination rather than letting it fail silently.
+  #
+  # The cost is hibernation, which cannot work with a key that is discarded
+  # at power-off. Nothing here used it: there is no resume= on the kernel
+  # command line, boot.resumeDevice is unset, and 8 GiB could not hold an
+  # image of 31 GiB of RAM in any case.
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/337de752-315a-4b28-b6e4-9f39bb2c1072"; }];
+    [{
+      device = "/dev/disk/by-partuuid/214a77eb-7527-4295-b659-5416f5bfb924";
+      randomEncryption.enable = true;
+    }];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   # high-resolution display
