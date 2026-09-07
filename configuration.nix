@@ -1,6 +1,6 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# and in the NixOS manual (accessible by running `nixos-help`).
 
 {
   config,
@@ -61,6 +61,15 @@
         "root"
         "@wheel"
       ];
+
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+
+      # Remote builders fetch substitutes themselves rather than having
+      # this machine download results and push them out again.
+      builders-use-substitutes = true;
     };
 
     gc = {
@@ -97,11 +106,6 @@
         supportedFeatures = [ "big-parallel" ];
       }
     ];
-
-    extraOptions = ''
-      experimental-features = nix-command flakes
-      builders-use-substitutes = true
-    '';
   };
 
   nixpkgs.config = {
@@ -113,6 +117,10 @@
     #   };
     # };
 
+    # Required by logseq, which pins an EOL Electron. Verified 2026-09-07:
+    # removing this makes the whole system config refuse to evaluate. Drop
+    # the entry once logseq moves to a supported Electron, or once logseq
+    # itself is dropped -- nothing else here needs it.
     permittedInsecurePackages = [
       "electron-39.8.10"
     ];
@@ -161,7 +169,6 @@
   # networking.firewall.enable = false;
 
   networking.networkmanager.plugins = [ pkgs.networkmanager-strongswan ];
-  services.xl2tpd.enable = false;
   services.strongswan = {
     enable = true;
     secrets = [ "ipsec.d/ipsec.nm-l2tp.secrets" ];
@@ -169,7 +176,7 @@
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
