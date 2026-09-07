@@ -13,10 +13,6 @@
   };
 
   environment = {
-    systemPackages = with pkgs; [
-      bluez
-    ];
-
     etc = {
       "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
         bluez_monitor.properties = {

@@ -32,9 +32,12 @@
     "autovt@tty1".enable = false;
   };
 
-  # These are the GNOME tools we actually want
+  # These are the GNOME tools we actually want.
+  #
+  # `dconf` and `seahorse` are omitted deliberately: the programs.* options
+  # below already add them. `networkmanager` likewise comes from
+  # networking.networkmanager, which the GNOME module enables.
   environment.systemPackages = with pkgs; [
-    dconf
     evince
     dconf-editor
     eog
@@ -47,13 +50,11 @@
     gnome-terminal
     gnome-tweaks
     nautilus
-    seahorse
     sushi
     gnomeExtensions.vitals
     wl-clipboard
 
     networkmanagerapplet
-    networkmanager
     networkmanager-l2tp
   ];
 

@@ -119,32 +119,28 @@
   };
 
   # System packages
+  #
+  # Nothing here should duplicate what a module already provides. NixOS's
+  # system-path.nix unconditionally installs a `corePackages` set -- bash,
+  # coreutils-full, curl, gawk, gnugrep, gnused, gnutar, gzip, xz and
+  # friends -- so listing those again just adds a second, identical entry
+  # to the same buildEnv. Likewise `bolt`, which the GNOME module pulls in
+  # via services.hardware.bolt.
   environment.systemPackages = with pkgs; [
     # Hardware support
-    bolt
     thunderbolt
 
     # Useful tools
-    bash
     bc
     borgbackup
-    coreutils-full
-    curl
-    fuse
-    gawk
     git-filter-repo
     git-lfs
     gitFull
-    gnugrep
-    gnused
-    gnutar
-    gzip
     jq
     s3fs
     tree
     unzip
     wget
-    xz
     yq-go
     zip
   ];

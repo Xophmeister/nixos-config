@@ -1,11 +1,12 @@
 { config, pkgs, ... }:
 
 {
+  # programs.zsh installs zsh, and its syntaxHighlighting suboption installs
+  # zsh-syntax-highlighting. autosuggestions is sourced straight from the
+  # store by the module without going on PATH, so that one stays listed.
   environment.systemPackages = with pkgs; [
-    zsh
     zsh-autoenv
     zsh-autosuggestions
-    zsh-syntax-highlighting
   ];
 
   programs.zsh = {

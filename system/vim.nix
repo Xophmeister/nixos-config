@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = [ pkgs.vim ];
+  # programs.vim.enable installs pkgs.vim already.
   programs.vim.enable = true;
   programs.vim.defaultEditor = true;
 }
