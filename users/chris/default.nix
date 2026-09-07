@@ -144,6 +144,7 @@ in
       ./tmate.nix
       ./vim.nix
       ./git.nix
+      ./prune.nix
     ];
 
     # `user` is this user's identity, so it is injected per-user rather than
