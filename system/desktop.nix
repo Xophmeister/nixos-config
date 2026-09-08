@@ -62,4 +62,23 @@
     dconf.enable = true;
     seahorse.enable = true;
   };
+
+  # Run Electron and Chromium apps natively on Wayland rather than through
+  # XWayland. This is a nixpkgs convention rather than anything upstream:
+  # the wrappers test it, and only append the Ozone flags when
+  # WAYLAND_DISPLAY is also set, so it expands to nothing on an X11 session
+  # and cannot break the fallback.
+  #
+  # It earns its place twice over here. The panel is 3840x2400, which GNOME
+  # drives at 2x, and an XWayland client renders at 1x and is then upscaled
+  # by the compositor -- so Slack and Logseq were soft rather than sharp.
+  # Separately, slack's wrapper adds WebRTCPipeWireCapturer under this flag,
+  # which is what routes screen capture through the PipeWire portal; without
+  # it, sharing a screen in a huddle does not work on Wayland at all.
+  #
+  # It belongs at the system level, not in home-manager. NixOS sets these
+  # through PAM early in login, so they reach applications GNOME launches
+  # itself; home.sessionVariables only reaches shell startup files, which a
+  # GDM-started session never sources.
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 }
