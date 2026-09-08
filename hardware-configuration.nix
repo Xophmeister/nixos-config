@@ -10,11 +10,28 @@
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
+  # i915 in stage 1 so the display is under kernel mode-setting before the
+  # root is mounted, rather than switching mode part-way through boot.
+  boot.initrd.kernelModules = [ "i915" ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/2c3b306e-1022-4a01-9647-25af6ce6dba3";
+  boot.initrd.luks.devices."cryptroot" = {
+    device = "/dev/disk/by-uuid/2c3b306e-1022-4a01-9647-25af6ce6dba3";
+
+    # dm-crypt drops discards unless told otherwise, so without this the
+    # weekly fstrim.timer trims /boot and silently does nothing for the
+    # 230 GiB root -- the SSD goes on believing almost every block is in
+    # use, which costs write performance and endurance.
+    #
+    # The trade-off is real: passing discards through lets someone holding
+    # the disk see which blocks are unused, and so roughly how full the
+    # filesystem is and where the data sits. That is a genuine weakening
+    # of what the encryption otherwise hides, accepted here because the
+    # threat being defended against is a stolen laptop rather than
+    # sustained forensic analysis.
+    allowDiscards = true;
+  };
 
   # This must name the mapper device, not the ext4 filesystem's
   # /dev/disk/by-uuid/... path, because the systemd stage 1 initrd is
@@ -57,10 +74,75 @@
   swapDevices =
     [{
       device = "/dev/disk/by-partuuid/214a77eb-7527-4295-b659-5416f5bfb924";
-      randomEncryption.enable = true;
+
+      randomEncryption = {
+        enable = true;
+
+        # Same reasoning as the root device above, with less to lose: the
+        # key is discarded at power-off, so what leaks is only which blocks
+        # this boot happened to page out to.
+        allowDiscards = true;
+      };
     }];
 
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  # The kernel reports this machine as `Vulnerable: No microcode` for
+  # gather_data_sampling (Downfall, CVE-2022-40982) and flags the running
+  # revision (0x86) as old. Tiger Lake is affected and the mitigation only
+  # exists in microcode, so there is nothing to be gained by leaving this
+  # off. hardware.enableRedistributableFirmware is already true; this
+  # option just defaults to false in plain NixOS.
+  hardware.cpu.intel.updateMicrocode = true;
+
+  # Taken from nixos-hardware's lenovo/thinkpad/x1/9th-gen rather than
+  # importing it. Reading that module through, it sets seven things, and
+  # four were already true here: updateMicrocode (set explicitly below),
+  # services.fstrim.enable, services.tlp.enable (it defers to
+  # power-profiles-daemon, which GNOME already runs) and a kernel override
+  # that only applies below 5.15. What remained was the three settings
+  # here, so the import would have been 385 MiB of closure to deliver
+  # about six lines.
+  #
+  # The 320 MiB of that which is intel-compute-runtime and
+  # intel-graphics-compiler is the OpenCL stack, which the module pulls in
+  # unconditionally alongside the media driver and nothing here uses. Its
+  # intel-vaapi-driver is the legacy i965, which Gen12 does not use.
+  #
+  # The trade is that quirk fixes for this model no longer arrive with a
+  # channel update. That was judged acceptable: the hardware is old enough
+  # that little is likely to change, and the module held no obscure
+  # knowledge -- no kernel parameters, no firmware workarounds.
+  hardware = {
+    # Hold the middle button and push the nub to scroll.
+    trackpoint = {
+      enable = true;
+      emulateWheel = true;
+    };
+
+    # Tiger Lake is Gen12, which wants the iHD driver (intel-media-driver);
+    # the older i965 does not cover it. Without these there is no Intel
+    # VAAPI driver at all and video is decoded on the CPU -- mesa ships
+    # drivers only for nouveau, radeonsi and friends. vpl-gpu-rt adds the
+    # oneVPL runtime, which is what gets hardware *encoding* used on calls.
+    graphics.extraPackages = with pkgs; [
+      intel-media-driver
+      vpl-gpu-rt
+    ];
+  };
+
+  # nixos-generate-config emits
+  #
+  #   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  #
+  # here. It is deliberately absent: this CPU runs intel_pstate in active
+  # mode, which exposes only "performance" and "powersave" and already
+  # defaults to the latter, so the line asserted a default that was never
+  # in doubt. The setting that does something on this hardware is the
+  # energy-performance preference (balance_performance at present), which
+  # GNOME's power-profiles-daemon drives. Regenerating this file will put
+  # the line back; it can go again.
+  #
+  # `lib` is kept in the argument list above: it is part of the generated
+  # signature, and the commented-out hidpi line below still refers to it.
   # high-resolution display
   # hardware.video.hidpi.enable = lib.mkDefault true;
 }
