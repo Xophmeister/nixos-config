@@ -34,6 +34,11 @@ let
     g.toml
     g.yaml
 
+    # Not a language edited here, but Conjure's built-in tutorial,
+    # :ConjureSchool, works through a Fennel buffer and extracts the forms it
+    # evaluates with treesitter. Without the grammar the tutorial cannot run.
+    g.fennel
+
     # Editing Neovim itself
     g.lua
     g.query
