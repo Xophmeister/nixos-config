@@ -139,6 +139,7 @@ in
     # through home-manager.extraSpecialArgs in ../default.nix.
     imports = [
       ./software.nix
+      ./chicken.nix
       ./zsh.nix
       ./tmux.nix
       ./tmate.nix

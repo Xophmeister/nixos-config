@@ -9,11 +9,15 @@
 -- <localleader>eb the whole buffer, and <localleader>ls opens the log.
 
 -- Conjure's Scheme client speaks to an external REPL over stdio and assumes
--- MIT Scheme. CHICKEN's csi needs both the command and the prompt it should
--- wait for: -quiet drops the banner, -:c keeps the REPL in console mode so
--- the prompt is emitted verbatim rather than wrapped in terminal control
--- sequences. The pattern is a Lua pattern, matching prompts like "#;1> ".
-vim.g["conjure#client#scheme#stdio#command"] = "csi -quiet -:c"
+-- MIT Scheme, so CHICKEN needs both the command and the prompt to wait for.
+--
+-- -:c is required: csi prints no prompt at all when its stdin is a pipe, and
+-- Conjure has nothing to synchronise on without one. -quiet is deliberately
+-- absent despite being documented as only suppressing the banner -- it
+-- silences the prompt too, which leaves Conjure waiting forever.
+--
+-- The pattern is a Lua pattern, matching prompts like "#;1> ".
+vim.g["conjure#client#scheme#stdio#command"] = "csi -:c"
 vim.g["conjure#client#scheme#stdio#prompt_pattern"] = "#;%d+> "
 
 -- The heads-up display overlaps the completion popup in a narrow split;
