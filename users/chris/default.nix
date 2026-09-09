@@ -142,7 +142,7 @@ in
       ./zsh.nix
       ./tmux.nix
       ./tmate.nix
-      ./vim.nix
+      ./neovim.nix
       ./git.nix
       ./prune.nix
     ];
@@ -153,8 +153,5 @@ in
     _module.args.user = user;
 
     home.stateVersion = "21.05";
-
-    # Custom Vim ftplugins
-    home.file.".vim/ftplugin".source = ./.vim-ftplugin;
   };
 }
