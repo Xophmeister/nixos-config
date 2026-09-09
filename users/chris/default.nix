@@ -103,10 +103,10 @@ in
   # spawn a root shell (`:!sh`, `git -c core.pager=...`), so granting them
   # NOPASSWD was equivalent to granting it for everything.
   #
-  # SETENV is kept deliberately. chris is in wheel, which already carries
-  # `SETENV: ALL`, but sudo applies the *last* matching rule rather than the
-  # most permissive one -- so without it here, the `sudo -E` alias in
-  # zsh.nix would be refused for exactly these two commands.
+  # No SETENV either. It was here to let a `sudo -E` alias carry chris's
+  # environment into root, so that root-run Vim picked up their config; that
+  # alias is gone, and with it the reason to let arbitrary environment be
+  # injected into a command that builds and activates the system.
   #
   # nixos-rebuild still amounts to root by another route, since it activates
   # whatever the configuration says. That is the point of it, not an oversight.
@@ -116,17 +116,11 @@ in
       commands = [
         {
           command = "/run/current-system/sw/bin/nixos-rebuild";
-          options = [
-            "SETENV"
-            "NOPASSWD"
-          ];
+          options = [ "NOPASSWD" ];
         }
         {
           command = "/run/current-system/sw/bin/nix-collect-garbage";
-          options = [
-            "SETENV"
-            "NOPASSWD"
-          ];
+          options = [ "NOPASSWD" ];
         }
       ];
     }

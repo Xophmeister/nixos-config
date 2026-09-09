@@ -9,7 +9,6 @@
       ":e" = "vim";
       ":q" = "exit";
       "exti" = "exit";
-      "sudo" = "sudo -E";
     };
 
     initContent =

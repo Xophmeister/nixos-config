@@ -56,6 +56,14 @@ in
     viAlias = true;
     vimAlias = true;
 
+    # Remote-plugin hosts, for plugins written in Ruby or Python rather than
+    # Lua. Nothing here is: the only rplugin/ directory in the plugin set is
+    # Conjure's deoplete source, and deoplete is not installed, so that host
+    # would sit unused. Both default to true while home.stateVersion is below
+    # 26.05, which is what the eval warnings were about.
+    withRuby = false;
+    withPython3 = false;
+
     plugins = with unstable.vimPlugins; [
       # Diagnostics, completion and formatting -- between them these do what
       # ALE did alone. nvim-lspconfig contributes no runtime behaviour of its

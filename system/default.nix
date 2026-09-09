@@ -8,6 +8,7 @@
     ./firmware.nix
     ./gnupg.nix
     ./printing.nix
+    ./sudo.nix
     ./vim.nix
     ./zsh.nix
   ];
