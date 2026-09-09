@@ -2,7 +2,7 @@
 # every derivation below is taken from `unstable` explicitly, so the editor,
 # its plugins and its treesitter grammars cannot drift apart. `pkgs` here is
 # the system's stable instance and is deliberately not used.
-{ unstable, ... }:
+{ config, unstable, ... }:
 
 let
   # Grammars are scoped to what is actually edited rather than pulled in
@@ -103,6 +103,17 @@ in
       # copilot.lua is configured to use the standalone server rather than the
       # Node one, and finds it by name on this PATH.
       copilot-language-server
+    ];
+
+    # home.sessionVariables reaches an interactive shell, and so reaches
+    # Neovim when it is started from one. Setting it on the wrapper as well
+    # means chicken-lsp-server still starts if Neovim is launched some other
+    # way -- from a desktop entry, say -- where that shell never ran.
+    # software.nix owns the value; this only passes it along.
+    extraWrapperArgs = [
+      "--set"
+      "CHICKEN_DOC_REPOSITORY"
+      config.home.sessionVariables.CHICKEN_DOC_REPOSITORY
     ];
 
     initLua = builtins.readFile ./nvim/init.lua;

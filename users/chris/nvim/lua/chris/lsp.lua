@@ -82,12 +82,12 @@ local function chicken_root(bufnr, on_dir)
 end
 
 --
--- Note that this server refuses to initialise without a chicken-doc
--- repository and exits 70 on the initialize request. The repository is
--- stateful -- built by chicken-doc-admin from the CHICKEN documentation --
--- so it is not present on a fresh machine and nothing here can conjure it.
--- Until one exists, Scheme has treesitter highlighting and Conjure but no
--- LSP. This was equally true before, but ALE swallowed the failure.
+-- This server takes its hover text and signatures from chicken-doc rather
+-- than from the buffer, and verifies that repository during the initialize
+-- handshake -- without one it exits 70 before answering anything. The
+-- repository and the CHICKEN_DOC_REPOSITORY that points at it are set up in
+-- software.nix; see the comment there for why it cannot live in CHICKEN's
+-- own directory on this system.
 vim.lsp.config("chicken_lsp", {
   cmd = { "chicken-lsp-server", "--stdio" },
   filetypes = { "scheme" },
