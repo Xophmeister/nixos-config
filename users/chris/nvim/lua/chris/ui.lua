@@ -37,7 +37,9 @@ require("rainbow-delimiters.setup").setup({})
 -- laststatus = 2, and the tabline shows tabs rather than buffers.
 require("lualine").setup({
   options = {
-    theme = "solarized_dark",
+    -- lualine's own solarized_dark, but with airline's section colours; see
+    -- statusline.lua for why.
+    theme = require("chris.statusline"),
     globalstatus = false,
     icons_enabled = true,
 

@@ -67,6 +67,23 @@ vim.o.modelines = 5
 
 vim.o.mouse = "a"
 
+-- Restore the blinking cursor.
+--
+-- Ghostty is configured for a blinking block, and terminal Vim simply left
+-- the cursor alone, so that setting held. Neovim instead drives the cursor
+-- itself: it maps each `guicursor` entry to a DECSCUSR code, and the shapes
+-- it ships by default carry no blink parameters, which selects the steady
+-- variant of each code and overrides the terminal.
+--
+-- Only the blink timings are added below; the shapes are Neovim's own, so
+-- the cursor still reports the mode -- a block in normal, a bar in insert,
+-- an underline when replacing.
+vim.o.guicursor = table.concat({
+  "n-v-c-sm:block-blinkwait700-blinkon500-blinkoff300",
+  "i-ci-ve:ver25-blinkwait700-blinkon500-blinkoff300",
+  "r-cr-o:hor20-blinkwait700-blinkon500-blinkoff300",
+}, ",")
+
 -- Persistent undo. Neovim's default undodir is under stdpath("state"),
 -- which is where this belongs, so only the switch itself is set.
 vim.o.undofile = true
