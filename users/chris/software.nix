@@ -36,7 +36,6 @@ in
     stable.inkscape
     stable.libreoffice
     unstable.firefox
-    unstable.ghostty
     stable.logseq
     unstable.slack
     unstable.thunderbird

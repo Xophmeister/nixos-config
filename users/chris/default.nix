@@ -134,6 +134,7 @@ in
     imports = [
       ./software.nix
       ./chicken.nix
+      ./ghostty.nix
       ./zsh.nix
       ./tmux.nix
       ./tmate.nix
