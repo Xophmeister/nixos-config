@@ -89,6 +89,7 @@ in
       aerial-nvim
       fzf-lua
       which-key-nvim
+      hover-nvim
 
       # Lisps: REPL, structural motions, and paren inference
       conjure

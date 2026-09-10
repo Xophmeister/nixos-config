@@ -85,6 +85,7 @@ in
     stable.cljfmt
 
     # Nix
+    unstable.nixd
     unstable.nixfmt
 
     # OpenTofu

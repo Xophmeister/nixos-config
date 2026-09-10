@@ -65,7 +65,20 @@ vim.o.spelllang = "en_gb"
 vim.o.modeline = true
 vim.o.modelines = 5
 
+-- Idle delay, in milliseconds, before CursorHold fires. The LSP reference
+-- highlighting in lsp.lua hangs off that event, and Neovim's default of four
+-- seconds is long enough that the highlight reads as broken rather than
+-- delayed. This is also the interval at which the swap file is written.
+vim.o.updatetime = 250
+
 vim.o.mouse = "a"
+
+-- Ask the terminal to report pointer motion, not just clicks and drags. This
+-- exists solely so that <MouseMove> fires, which is what drives the hover
+-- popup set up in tools.lua; nothing else here reads it. The cost is one
+-- escape sequence per cell the pointer crosses, which is unremarkable locally
+-- but is worth remembering if this configuration is ever used over ssh.
+vim.o.mousemoveevent = true
 
 -- Restore the blinking cursor.
 --
