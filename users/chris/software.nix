@@ -5,21 +5,22 @@
 }:
 
 let
-  # `pkgs` is the system's stable instance (home-manager.useGlobalPkgs is on,
-  # so it is literally the same one the NixOS modules see). Aliasing it makes
-  # each entry below say which channel it came from.
+  # `pkgs` is the system's stable instance (home-manager.useGlobalPkgs
+  # is on, so it is literally the same one the NixOS modules see).
+  # Aliasing it makes each entry below say which channel it came from.
   stable = pkgs;
 
-  # wean has its own repository (tweag:Xophmeister/wean.git); this config
-  # only wraps binaries with it. The copies that used to sit beside this
-  # file were hardlinks into that checkout, so the two were the same file
-  # until any `git checkout` in either repo broke the link and let them
-  # drift apart silently.
+  # Methadone has its own repository (tweag:Xophmeister/methadone.git);
+  # this config only wraps binaries with it. The copies that used to sit
+  # beside this file were hardlinks into that checkout, so the two were
+  # the same file until any `git checkout` in either repo broke the link
+  # and let them drift apart silently.
   #
-  # Unlike backer-upper, which is named as a runtime path inside a script,
-  # this is read during evaluation: `nixos-rebuild` will fail outright if
-  # the checkout is missing, and uncommitted edits to it are picked up.
-  wean = /home/chris/Projects/personal/wean/wean.nix;
+  # Unlike backer-upper, which is named as a runtime path inside a
+  # script, this is read during evaluation: `nixos-rebuild` will fail
+  # outright if the checkout is missing, and uncommitted edits to it are
+  # picked up.
+  methadone = /home/chris/Projects/personal/methadone/methadone.nix;
 
   # Copilot has a bug that expects bash to exist at /bin/bash, so we
   # need to build a FHS environment for it (see github/copilot-cli#3392)
@@ -50,12 +51,12 @@ in
     unstable.pre-commit
     unstable.reuse
 
-    (pkgs.callPackage wean {
+    (pkgs.callPackage methadone {
       package = unstable.claude-code;
       binary = "claude";
     })
 
-    (pkgs.callPackage wean {
+    (pkgs.callPackage methadone {
       package = copilotFHS;
       binary = "copilot";
     })
