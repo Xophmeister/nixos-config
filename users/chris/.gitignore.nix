@@ -1,11 +1,28 @@
 # Generate with:
 #
-# curl https://www.toptal.com/developers/gitignore/api/vim,terraform,haskell,python,c \
+# curl https://www.toptal.com/developers/gitignore/api/vim,terraform,rust,python,c,clojure \
 # | sed 's/ *#.*//;/^$/d;s/.*/"&"/' \
 # | sort \
 # | uniq
 
 [
+  ### Clojure ###
+  "pom.xml"
+  "pom.xml.asc"
+  "*.jar"
+  "*.class"
+  "/lib/"
+  "/classes/"
+  "/target/"
+  "/checkouts/"
+  ".lein-deps-sum"
+  ".lein-repl-history"
+  ".lein-plugins/"
+  ".lein-failures"
+  ".nrepl-port"
+  ".cpcache/"
+  ".clj-kondo/"
+
   ### Python ###
   # Byte-compiled / optimized / DLL files
   "__pycache__/"
