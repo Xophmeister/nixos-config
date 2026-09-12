@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+{ pkgs, ... }:
 
 let
   user = {
@@ -14,25 +9,17 @@ let
       work = "christopher.harrison@tweag.io";
     };
   };
-
-  buckets = [
-    "xoph-documents"
-    "xoph-photos"
-  ];
-
-  backerUpperWrapper = pkgs.writeShellScript "backer-upper-wrapper" ''
-    export PATH=${
-      lib.makeBinPath [
-        pkgs.bash
-        pkgs.borgbackup
-        pkgs.openssh
-      ]
-    }:$PATH
-
-    exec /home/chris/Projects/personal/backer-upper/backup.sh
-  '';
 in
 {
+  # chris's system-level configuration: filesystems, tmpfiles rules and system
+  # services, none of which home-manager can express. `user` is passed at each
+  # import site, so it stays scoped to the modules that need it rather than
+  # reaching every module in the system through _module.args.
+  imports = [
+    (import ./backblaze.nix { inherit user; })
+    (import ./backer-upper.nix { inherit user; })
+  ];
+
   users.users."${user.id}" = {
     description = user.name;
     isNormalUser = true;
@@ -41,58 +28,6 @@ in
       "docker"
     ];
     shell = pkgs.zsh;
-  };
-
-  programs.fuse.userAllowOther = true;
-
-  # TODO Don't hardcode group
-  systemd.tmpfiles.rules = map (
-    bucket: "d /run/media/${user.id}/${bucket} 0700 ${user.id} users -"
-  ) buckets;
-
-  fileSystems = builtins.listToAttrs (
-    map (bucket: {
-      name = "/run/media/${user.id}/${bucket}";
-      value = {
-        device = bucket;
-        fsType = "s3fs";
-        options = [
-          "_netdev"
-          "allow_other"
-          "use_path_request_style"
-          "uid=1000" # TODO Don't hardcode this
-          "gid=100" # TODO Don't hardcode this
-          "passwd_file=/home/chris/.config/s3fs/.backblaze"
-          "url=https://s3.eu-central-003.backblazeb2.com"
-          "ensure_diskfree=2048" # keep 2 GiB free, not 10% of the disk
-        ];
-      };
-    }) buckets
-  );
-
-  systemd.services.backer-upper = {
-    description = "Backup on shutdown";
-    serviceConfig = {
-      Type = "oneshot";
-      User = user.id;
-      ExecStart = "${pkgs.coreutils}/bin/true";
-      ExecStop = backerUpperWrapper;
-      TimeoutStartSec = "1h";
-      TimeoutStopSec = "1h";
-      RemainAfterExit = true;
-      KillMode = "process";
-      KillSignal = "SIGTERM";
-      SendSIGKILL = false;
-      StandardOutput = "journal";
-      StandardError = "journal";
-    };
-
-    after = [
-      "network-online.target"
-      "multi-user.target"
-    ];
-    wants = [ "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
   };
 
   # Passwordless sudo for the two commands used often enough to be worth it.
@@ -140,7 +75,7 @@ in
       ./tmate.nix
       ./neovim.nix
       ./git.nix
-      ./prune.nix
+      ./cleaner-upper.nix
     ];
 
     # `user` is this user's identity, so it is injected per-user rather than

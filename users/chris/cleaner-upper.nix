@@ -3,6 +3,10 @@
 # This exists because 60 GiB of cargo target/ directories across 18
 # projects quietly filled the disk, which only surfaced when a rebuild
 # could not complete.
+#
+# A home-manager module, so the timer runs under systemd --user and reaches
+# $HOME without guessing at it. Its system-level counterpart is
+# ./backer-upper.nix.
 { pkgs, lib, ... }:
 
 let
@@ -71,8 +75,8 @@ let
     ".npm/_npx"
   ];
 
-  prune = pkgs.writeShellApplication {
-    name = "prune-stale-artefacts";
+  cleanerUpper = pkgs.writeShellApplication {
+    name = "cleaner-upper";
     runtimeInputs = with pkgs; [
       coreutils
       findutils
@@ -141,12 +145,12 @@ let
   };
 in
 {
-  systemd.user.services.prune-stale-artefacts = {
+  systemd.user.services.cleaner-upper = {
     Unit.Description = "Remove stale build output and tool caches";
 
     Service = {
       Type = "oneshot";
-      ExecStart = lib.getExe prune;
+      ExecStart = lib.getExe cleanerUpper;
 
       # This is housekeeping; it should never compete with anything the
       # machine is actually being used for.
@@ -155,7 +159,7 @@ in
     };
   };
 
-  systemd.user.timers.prune-stale-artefacts = {
+  systemd.user.timers.cleaner-upper = {
     Unit.Description = "Daily sweep of stale build output and tool caches";
 
     Timer = {
