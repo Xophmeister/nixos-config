@@ -128,10 +128,12 @@ vim.filetype.add({
 vim.diagnostic.config({
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = "🔥",
-      [vim.diagnostic.severity.WARN] = "⚠️",
-      [vim.diagnostic.severity.INFO] = "ℹ️",
-      [vim.diagnostic.severity.HINT] = "💁‍♂️",
+      -- TODO These should be the same as lualine, so we could
+      -- generalise them elsewhere to prevent drift and duplication
+      [vim.diagnostic.severity.ERROR] = "\u{f057}", -- nf-fa-times_circle
+      [vim.diagnostic.severity.WARN]  = "\u{f071}", -- nf-fa-exclamation_triangle
+      [vim.diagnostic.severity.INFO]  = "\u{f05a}", -- nf-fa-info_circle
+      [vim.diagnostic.severity.HINT]  = "\u{f0eb}", -- nf-fa-lightbulb_o
     },
   },
   virtual_text = true,
