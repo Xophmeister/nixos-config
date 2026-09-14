@@ -134,10 +134,28 @@ local pointer_timer = assert(vim.uv.new_timer())
 local shown_for --- @type integer?
 
 local function close_pointer_hover()
-  if shown_for then
-    hover.close(shown_for)
-    shown_for = nil
+  if not shown_for then
+    return
   end
+
+  if vim.api.nvim_buf_is_valid(shown_for) then
+    hover.close(shown_for)
+  else
+    -- The buffer can be gone by the time this runs: closed by hand, or wiped
+    -- by something keeping its own scratch buffers, such as a picker preview.
+    -- Two things follow from that. hover.close() indexes vim.b[bufnr], which
+    -- throws on a dead id rather than ignoring it; and it finds the window
+    -- through vim.b[bufnr].hover_preview, which died with the buffer, leaving
+    -- the popup floating with nothing able to reach it. hover marks its own
+    -- windows, so that is what they are found by here.
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_config(win).relative ~= "" and vim.w[win].hover_provider ~= nil then
+        pcall(vim.api.nvim_win_close, win, true)
+      end
+    end
+  end
+
+  shown_for = nil
 end
 
 vim.keymap.set("n", "<MouseMove>", function()
