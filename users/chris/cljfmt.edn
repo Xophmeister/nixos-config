@@ -1,0 +1,38 @@
+;; cljfmt house style, installed by users/chris/clojure.nix -- edit that
+;; source, not ~/.cljfmt.edn, which home-manager overwrites.
+;;
+;; A file rather than command-line flags, for two reasons. cljfmt reads
+;; exactly one config: load-config merges a single file over the defaults,
+;; and main.clj finds that file by walking up from the working directory. So
+;; a project carrying its own .cljfmt.edn overrides everything here, which is
+;; the right outcome in someone else's repository. And one useful setting,
+;; :max-column-alignment-gap, cannot be given on the command line at all in
+;; 0.16.4 -- the value arrives as a string and fails the pos-int? assertion
+;; in pad-to-position.
+
+{;; Align the binding pairs of let, loop, for, doseq, binding, with-open and
+ ;; the other forms listed in cljfmt/aligned_forms/clojure.clj.
+ :align-form-columns? true
+
+ ;; The same, for the keys and values of map literals.
+ :align-map-columns? true
+
+ ;; Let a blank line inside a binding vector start a fresh alignment group,
+ ;; so one wide name at the bottom does not pad out everything above it.
+ :blank-lines-separate-alignment? true
+
+ ;; Guarantee the trailing newline.
+ :normalize-newlines-at-file-end? true
+
+ ;; Sort the entries within :require and :import.
+ :sort-ns-references? true
+
+ ;; Deliberately absent: :remove-multiple-non-indenting-spaces?. It leaves the
+ ;; alignment cljfmt produces itself alone, but flattens alignment done by
+ ;; hand in the forms it does not know about -- cond, case, condp, and aligned
+ ;; call arguments -- which is exactly the alignment worth keeping.
+ ;;
+ ;; Uncomment to cap how far alignment will pad, so that a single long name
+ ;; cannot push an entire block out to meet it:
+ ;; :max-column-alignment-gap 4
+ }

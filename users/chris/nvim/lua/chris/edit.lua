@@ -10,12 +10,21 @@ local conform = require("conform")
 
 conform.setup({
   formatters = {
-    -- cljfmt leaves runs of spaces inside forms alone by default. Collapsing
-    -- them is a deliberate house style rather than a cljfmt default, so the
-    -- whole argument list is spelled out rather than appended: the flag has
-    -- to precede the `-` that puts cljfmt in stdin mode.
+    -- cljfmt's settings live in ~/.cljfmt.edn, installed by ../../clojure.nix,
+    -- rather than as flags here -- one of them cannot be passed on the command
+    -- line at all, and a file lets a project override the lot by carrying its
+    -- own.
+    --
+    -- What this does need to say is where to run it from. cljfmt finds its
+    -- configuration by walking up from its working directory: main.clj calls
+    -- find-config-file with "", so --project-root has no bearing on it, and
+    -- conform otherwise runs formatters in Neovim's cwd. Starting from the
+    -- buffer's own directory is therefore the whole of what makes a project's
+    -- .cljfmt.edn take precedence over the one in $HOME.
     cljfmt = {
-      args = { "fix", "--remove-multiple-non-indenting-spaces", "-" },
+      cwd = function(_, ctx)
+        return ctx.dirname
+      end,
     },
 
     -- conform's stock definition shells out to `terraform`. OpenTofu's CLI is

@@ -75,6 +75,7 @@ in
       ./tmate.nix
       ./neovim.nix
       ./git.nix
+      ./clojure.nix
       ./cleaner-upper.nix
     ];
 

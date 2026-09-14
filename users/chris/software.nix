@@ -78,13 +78,6 @@ in
     unstable.rustfmt
     unstable.clippy
 
-    # Clojure
-    stable.clojure
-    stable.babashka
-    stable.clojure-lsp
-    stable.clj-kondo
-    stable.cljfmt
-
     # Nix
     unstable.nixd
     unstable.nixfmt
