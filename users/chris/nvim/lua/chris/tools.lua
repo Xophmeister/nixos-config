@@ -5,14 +5,28 @@
 -- blink.cmp replaces the ALE-completion-plus-supertab arrangement. It manages
 -- `completeopt` itself, so that is not set here.
 --
--- The `enter` preset accepts on <CR>, which is the whole reason for choosing
--- it over `default`. Selection moves on <C-p>/<C-n> or the arrow keys, and
--- <Tab>/<S-Tab> step through snippet placeholders rather than walking the
--- menu -- that is true of every preset but `super-tab`, where <Tab> accepts
--- instead. <C-space> opens the menu, <C-e> dismisses it. Note that `enter`
--- binds no <C-y>, so <CR> is the only key that accepts.
+-- `super-tab` accepts on <Tab>. Selection moves on <C-p>/<C-n> or the arrow
+-- keys, <C-space> opens the menu and <C-e> dismisses it -- <C-e> being the key
+-- to reach for rather than <Esc>, which dismisses insert mode rather than the
+-- menu.
+--
+-- It is chosen as much for what it does not bind: <CR> appears nowhere in it,
+-- so a newline is always a newline. The `enter` preset was tried first and
+-- reads well until it is used, because completion.list.selection.preselect
+-- defaults to true and something is therefore always selected -- so its
+-- <CR> = { "accept", "fallback" } never reaches the fallback, and every
+-- newline typed while the menu was open inserted a completion instead.
+--
+-- <Tab> has the mirrored flaw, of wanting a literal tab while the menu is up,
+-- but that is the rarer case: the menu only shows after a word character, and
+-- indentation happens at the start of a line, where it does not. Should it
+-- ever grate, the other way out is preselect = false, which leaves nothing
+-- selected until one is chosen and so makes <CR> safe for the same reason.
+--
+-- <Tab> chains accept-if-a-menu-is-showing, then snippet_forward, then a
+-- literal tab, so snippet placeholders still work whenever no menu is up.
 require("blink.cmp").setup({
-  keymap = { preset = "enter" },
+  keymap = { preset = "super-tab" },
 
   sources = {
     default = { "lsp", "path", "snippets", "buffer" },
