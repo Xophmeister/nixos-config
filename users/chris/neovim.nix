@@ -45,6 +45,27 @@ let
     g.vim
     g.vimdoc
   ]);
+  # hover.nvim, with one upstream race patched out.
+  #
+  # open_floating_preview schedules `vim.wo[hover_winid].foldenable = false`
+  # to run a tick after the popup opens, and the same function registers
+  # autocommands -- CursorMoved, CursorMovedI, InsertCharPre, BufEnter -- that
+  # close that window. When one of those fires inside the gap, the scheduled
+  # write lands on a dead window id and throws "Invalid window id" through
+  # __newindex. Nothing is broken by it, since the window is already gone, but
+  # the message interrupts, and pointer hover hits it often because it opens
+  # and closes popups continuously as the pointer moves.
+  #
+  # Reported as https://github.com/lewis6991/hover.nvim/issues/121; drop this
+  # once a release carries the guard. --replace-fail means the build fails
+  # loudly rather than silently doing nothing if that line moves upstream.
+  hover = unstable.vimPlugins.hover-nvim.overrideAttrs (old: {
+    postPatch = (old.postPatch or "") + ''
+      substituteInPlace lua/hover/util.lua --replace-fail \
+        "vim.wo[hover_winid].foldenable = false" \
+        "if api.nvim_win_is_valid(hover_winid) then vim.wo[hover_winid].foldenable = false end"
+    '';
+  });
 in
 {
   programs.neovim = {
@@ -89,7 +110,7 @@ in
       aerial-nvim
       fzf-lua
       which-key-nvim
-      hover-nvim
+      hover
 
       # Lisps: REPL, structural motions, and paren inference
       conjure
