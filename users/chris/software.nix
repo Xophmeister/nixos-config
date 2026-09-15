@@ -20,7 +20,7 @@ let
   # script, this is read during evaluation: `nixos-rebuild` will fail
   # outright if the checkout is missing, and uncommitted edits to it are
   # picked up.
-  methadone = /home/chris/Projects/personal/methadone/methadone.nix;
+  methadone = /home/chris/Projects/personal/methadone/main/methadone.nix;
 
   # Copilot has a bug that expects bash to exist at /bin/bash, so we
   # need to build a FHS environment for it (see github/copilot-cli#3392)
