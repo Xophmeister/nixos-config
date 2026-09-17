@@ -20,7 +20,12 @@ let
   # script, this is read during evaluation: `nixos-rebuild` will fail
   # outright if the checkout is missing, and uncommitted edits to it are
   # picked up.
-  methadone = /home/chris/Projects/personal/methadone/main/methadone.nix;
+  #
+  # It evaluates to a library rather than a derivation: `wrap` puts
+  # Methadone in front of an agent under that agent's name, and `stats`
+  # installs it under its own, where it reports on the log instead. One
+  # script serves all three, and they share one log.
+  methadone = pkgs.callPackage /home/chris/Projects/personal/methadone/main/methadone.nix { };
 
   # Copilot has a bug that expects bash to exist at /bin/bash, so we
   # need to build a FHS environment for it (see github/copilot-cli#3392)
@@ -51,15 +56,17 @@ in
     unstable.pre-commit
     unstable.reuse
 
-    (pkgs.callPackage methadone {
+    (methadone.wrap {
       package = unstable.claude-code;
       binary = "claude";
     })
 
-    (pkgs.callPackage methadone {
+    (methadone.wrap {
       package = copilotFHS;
       binary = "copilot";
     })
+
+    methadone.stats
 
     # Python
     stable.python313
