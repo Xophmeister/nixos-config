@@ -242,5 +242,6 @@ wk.setup({})
 
 wk.add({
   { "<leader>f", group = "find" },
+  { "<leader>h", group = "hunk" },
   { "<localleader>", group = "repl" },
 })

@@ -6,9 +6,10 @@
 -- three separate concerns here, one module each under lua/chris/: language
 -- servers, formatters and linters.
 --
--- Non-ASCII characters appear in `listchars` and the diagnostic signs below.
--- Those are glyphs to be rendered rather than identifiers, so they are the
--- one place where the 7-bit rule does not apply.
+-- `listchars` below is the one place in this file carrying literal non-ASCII:
+-- those are glyphs to be rendered rather than identifiers, so the 7-bit rule
+-- does not apply. Every other glyph this configuration draws lives in
+-- lua/chris/glyphs.lua, written as \u escapes.
 
 -- Leaders are captured by plugins at the moment they define a mapping, so
 -- they must be set before anything is required.
@@ -20,6 +21,12 @@ vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.o.number = true
 vim.o.cursorline = true
+
+-- Room for two signs. Diagnostics and gitsigns both write to the gutter, and
+-- at "auto" a line that is both changed and carrying a warning shows only
+-- whichever sign has the higher priority. The column still collapses when
+-- there is nothing to show.
+vim.o.signcolumn = "auto:2"
 vim.o.scrolloff = 2
 vim.o.splitright = true
 vim.o.showcmd = true
@@ -125,15 +132,15 @@ vim.filetype.add({
 
 -- Diagnostics. The signs carry over from the ALE configuration; the rest is
 -- Neovim's own diagnostic framework, which ALE used to shadow.
+local glyphs = require("chris.glyphs")
+
 vim.diagnostic.config({
   signs = {
     text = {
-      -- TODO These should be the same as lualine, so we could
-      -- generalise them elsewhere to prevent drift and duplication
-      [vim.diagnostic.severity.ERROR] = "\u{f057}", -- nf-fa-times_circle
-      [vim.diagnostic.severity.WARN]  = "\u{f071}", -- nf-fa-exclamation_triangle
-      [vim.diagnostic.severity.INFO]  = "\u{f05a}", -- nf-fa-info_circle
-      [vim.diagnostic.severity.HINT]  = "\u{f0eb}", -- nf-fa-lightbulb_o
+      [vim.diagnostic.severity.ERROR] = glyphs.diagnostics.error,
+      [vim.diagnostic.severity.WARN] = glyphs.diagnostics.warn,
+      [vim.diagnostic.severity.INFO] = glyphs.diagnostics.info,
+      [vim.diagnostic.severity.HINT] = glyphs.diagnostics.hint,
     },
   },
   virtual_text = true,
@@ -142,6 +149,7 @@ vim.diagnostic.config({
 })
 
 require("chris.ui")
+require("chris.git")
 require("chris.lsp")
 require("chris.edit")
 require("chris.tools")

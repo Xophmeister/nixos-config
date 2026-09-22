@@ -1,5 +1,7 @@
 -- Appearance: colours, syntax, statusline and the symbol outline.
 
+local glyphs = require("chris.glyphs")
+
 -- Solarized is applied before anything else so that later plugins pick up
 -- its highlight groups as they initialise.
 vim.cmd.colorscheme("solarized8")
@@ -51,7 +53,23 @@ require("lualine").setup({
     lualine_a = { "mode" },
     lualine_b = { "branch", "diff" },
     lualine_c = { "filename" },
-    lualine_x = { "diagnostics", "encoding", "fileformat", "filetype" },
+    lualine_x = {
+      -- The same glyphs the gutter uses, from lua/chris/glyphs.lua. lualine
+      -- puts a count immediately after each, hence the trailing space that
+      -- the sign column has no use for.
+      {
+        "diagnostics",
+        symbols = {
+          error = glyphs.diagnostics.error .. " ",
+          warn = glyphs.diagnostics.warn .. " ",
+          info = glyphs.diagnostics.info .. " ",
+          hint = glyphs.diagnostics.hint .. " ",
+        },
+      },
+      "encoding",
+      "fileformat",
+      "filetype",
+    },
     lualine_y = { "progress" },
     lualine_z = { "location" },
   },

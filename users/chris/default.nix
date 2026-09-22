@@ -71,6 +71,7 @@ in
       ./chicken.nix
       ./ghostty.nix
       ./zsh.nix
+      ./fzf.nix
       ./tmux.nix
       ./tmate.nix
       ./neovim.nix

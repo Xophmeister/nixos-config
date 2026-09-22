@@ -111,6 +111,7 @@ in
       fzf-lua
       which-key-nvim
       hover
+      gitsigns-nvim
 
       # Lisps: REPL, structural motions, and paren inference
       conjure
@@ -124,11 +125,15 @@ in
       tabular
     ];
 
-    # Tools the editor shells out to, kept on the wrapper's PATH rather than
-    # in home.packages: they are Neovim's dependencies, not ones wanted at a
-    # shell prompt. The language servers and formatters are the other way
-    # round and stay in software.nix, since they are useful from the command
-    # line too.
+    # Tools the editor shells out to, put on the wrapper's PATH rather than
+    # left to the profile, so that Neovim still works when started somewhere
+    # a login shell never ran -- from a desktop entry, say.
+    #
+    # fzf is additionally in the profile, via ./fzf.nix, because the shell
+    # wants it too; both name unstable.fzf, so that is one binary in two
+    # places rather than two versions of one. The language servers and
+    # formatters go the other way round entirely and live in software.nix,
+    # being useful from a command line in their own right.
     extraPackages = with unstable; [
       # fzf-lua
       fzf
