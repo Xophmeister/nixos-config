@@ -124,6 +124,20 @@
     # removing this makes the whole system config refuse to evaluate. Drop
     # the entry once logseq moves to a supported Electron, or once logseq
     # itself is dropped -- nothing else here needs it.
+    #
+    # Dropping it would not be pure gain, though. In 26.05 all-packages.nix
+    # aliases `electron_39 = electron_39-bin`: an upstream prebuilt zip,
+    # unpacked and wrapped, with no Chromium compile anywhere in the graph.
+    # electron_42 and later instead take their src from electron-source,
+    # which does build Chromium, and that build is measured in hours. So
+    # what keeps it out of our build graph is logseq's choice of electron_39
+    # upstream, which we do not control -- a channel bump carrying logseq
+    # forward brings the source build back with no warning from this side.
+    #
+    # logseq is never substitutable either way: Hydra does not set
+    # permittedInsecurePackages, so it cannot evaluate logseq, let alone
+    # cache it. That is one source build of logseq alone on every channel
+    # bump, which stays cheap only while the Electron under it is prebuilt.
     permittedInsecurePackages = [
       "electron-39.8.10"
     ];
