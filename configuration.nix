@@ -86,7 +86,10 @@
         sshUser = "nix";
         sshKey = "/root/.ssh/id-tweag-builder";
         protocol = "ssh-ng";
-        system = "x86_64-linux";
+        systems = [
+          "x86_64-linux"
+          "i686-linux"
+        ];
         supportedFeatures = [
           "big-parallel"
           "kvm"
