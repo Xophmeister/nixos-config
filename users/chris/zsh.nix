@@ -42,4 +42,9 @@
       ];
     };
   };
+
+  # nix-shell and nix develop build their environment in Bash, then drop you
+  # into it; this wraps them (as interactive zsh functions only) to exec zsh
+  # instead. `command nix ...` bypasses the wrapper for the stock Bash shell.
+  programs.nix-your-shell.enable = true;
 }

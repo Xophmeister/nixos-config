@@ -6,6 +6,10 @@ export SHELLCHECK_OPTS="-e SC2155"
 # I don't like the right prompt
 unset RPS1
 
+# Nix shell indicator (nf-linux-nixos); IN_NIX_SHELL is inherited from
+# nix-shell/nix develop, and each of those starts a fresh zsh
+[[ -n "${IN_NIX_SHELL}" ]] && PROMPT="%F{blue}"$'\uF313'"%f ${PROMPT}"
+
 # Toggle commented command line on double Escape
 comment-command-line() {
   [[ -z "${BUFFER}" ]] && zle up-history
