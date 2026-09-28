@@ -19,6 +19,9 @@ comment-command-line() {
 zle -N comment-command-line
 bindkey "\e\e" comment-command-line
 
+# Nix remote builder alias, to save me having to remember it
+alias -g REMOTE="--max-jobs 0 --builders '@/etc/nix/machines'"
+
 ## # Automatic tmux session management
 ## if [[ -z "${TMUX}" ]]; then
 ##   sessions=$(tmux list-sessions -F "#{session_created},#S" 2>/dev/null)
