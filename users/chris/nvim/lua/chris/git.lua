@@ -21,6 +21,14 @@ gitsigns.setup({
     untracked = { text = glyphs.git.untracked },
   },
 
+  -- Signs are laid out left to right by descending priority, so this keeps
+  -- git marks in the first gutter slot with diagnostics beside them, rather
+  -- than being shunted right whenever a line also has a diagnostic.
+  -- Diagnostic signs start at 10 and, under severity_sort, rise to 13 for
+  -- errors; anything above that will do. It also means that when the gutter
+  -- overflows, a diagnostic is dropped rather than the git mark.
+  sign_priority = 20,
+
   -- Mappings are bound per buffer as gitsigns attaches, so they exist only
   -- where there is a repository to act on. A file outside one keeps ]c and
   -- [c for whatever else wants them.
