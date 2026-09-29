@@ -27,6 +27,13 @@ let
   # script serves all three, and they share one log.
   methadone = pkgs.callPackage /home/chris/Projects/personal/methadone/main/methadone.nix { };
 
+  # Multi-account Claude Code wrapper
+  claudeCode = pkgs.writeShellApplication {
+    name = "claude";
+    runtimeInputs = [ unstable.claude-code ];
+    text = builtins.readFile ./claude.sh;
+  };
+
   # Copilot has a bug that expects bash to exist at /bin/bash, so we
   # need to build a FHS environment for it (see github/copilot-cli#3392)
   copilotFHS = pkgs.buildFHSEnv {
@@ -56,10 +63,7 @@ in
     unstable.pre-commit
     unstable.reuse
 
-    (methadone.wrap {
-      package = unstable.claude-code;
-      binary = "claude";
-    })
+    (methadone.wrap { package = claudeCode; })
 
     (methadone.wrap {
       package = copilotFHS;
