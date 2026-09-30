@@ -44,11 +44,11 @@ vim.g["conjure#mapping#doc_word"] = "K"
 -- Structural editing.
 --
 -- vim-sexp provides the motions and text objects, and the
--- mappings-for-regular-people layer rebinds them off the awkward defaults.
--- parinfer-rust infers the parens from indentation as you type. The two are
--- complementary rather than overlapping: parinfer maintains balance while
--- writing, vim-sexp moves and reshapes forms that already exist.
-vim.g.sexp_enable_insert_mode_mappings = 1
+-- mappings-for-regular-people layer rebinds them off the awkward
+-- defaults. parinfer-rust infers the parens from indentation as you
+-- type. The two can conflict in insert mode, so the former is disabled
+-- therein.
+vim.g.sexp_enable_insert_mode_mappings = 0
 
 -- parinfer's smart mode follows edits rather than reformatting on entry,
 -- which is the only mode that leaves existing files alone.
