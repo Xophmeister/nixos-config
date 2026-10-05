@@ -82,6 +82,12 @@ in
     viAlias = true;
     vimAlias = true;
 
+    # Unlike the two above, this is a shell alias rather than a symlink on
+    # PATH: only an interactive shell sees it, and anything else that execs
+    # `vimdiff` still reaches the system Vim. Git does not, being told to
+    # use nvimdiff directly in ./git.nix.
+    vimdiffAlias = true;
+
     # Remote-plugin hosts, for plugins written in Ruby or Python rather than
     # Lua. Nothing here is: the only rplugin/ directory in the plugin set is
     # Conjure's deoplete source, and deoplete is not installed, so that host

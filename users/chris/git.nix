@@ -54,6 +54,11 @@ in
 
       push.autoSetupRemote = true;
 
+      # Named outright, rather than left to `vimdiff` happening to resolve
+      # `vim` to Neovim via vimAlias in ./neovim.nix.
+      diff.tool = "nvimdiff";
+      merge.tool = "nvimdiff";
+
       credential.helper = "${git}/bin/git-credential-libsecret";
     };
   };
