@@ -71,7 +71,22 @@ require("lualine").setup({
       "filetype",
     },
     lualine_y = { "progress" },
-    lualine_z = { "location" },
+    lualine_z = {
+      -- airline's wordcount extension, which prepended this to section z.
+      -- Counting a visual selection, as airline did, is left to wordcount()
+      -- itself: visual_words is only present while one is active.
+      {
+        function()
+          local count = vim.fn.wordcount()
+          local words = count.visual_words or count.words
+          return words == 1 and "1 word" or words .. " words"
+        end,
+        cond = function()
+          return vim.bo.filetype == "markdown"
+        end,
+      },
+      "location",
+    },
   },
   tabline = {
     lualine_a = { "tabs" },
