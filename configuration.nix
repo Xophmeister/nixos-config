@@ -165,6 +165,7 @@
     bc
     borgbackup
     jq
+    openssl
     s3fs
     tree
     unzip
