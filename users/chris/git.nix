@@ -59,6 +59,12 @@ in
       diff.tool = "nvimdiff";
       merge.tool = "nvimdiff";
 
+      # Only the file being merged, rather than the default LOCAL, BASE and
+      # REMOTE above it. Conflicts are resolved in that one buffer with
+      # git-conflict.nvim (see ./nvim/lua/chris/git.lua), whose highlights
+      # are the same Diff* groups that diff mode would paint over it.
+      mergetool.nvimdiff.layout = "MERGED";
+
       credential.helper = "${git}/bin/git-credential-libsecret";
     };
   };

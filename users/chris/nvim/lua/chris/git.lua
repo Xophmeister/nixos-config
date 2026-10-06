@@ -78,3 +78,16 @@ gitsigns.setup({
     end, "Blame line")
   end,
 })
+
+-- Conflict resolution in the conflicted file itself, rather than across the
+-- four windows `git mergetool` opens by default; git.nix sets its layout to
+-- the merged file alone for that reason. The plugin finds conflicted files by
+-- asking git, and only looks when Neovim's working directory is the top of a
+-- repository -- which is where mergetool starts it.
+--
+-- The default mappings stand. co, ct, cb and c0 shadow `c` followed by a
+-- motion, but they are bound only to a buffer with conflicts in it, and are
+-- taken away again once the last one is resolved. disable_diagnostics is left
+-- off: the markers do upset language servers, but the plugin implements it
+-- with vim.diagnostic.disable, which Neovim 0.12 no longer has at all.
+require("git-conflict").setup()

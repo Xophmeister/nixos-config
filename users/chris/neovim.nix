@@ -118,6 +118,7 @@ in
       which-key-nvim
       hover
       gitsigns-nvim
+      git-conflict-nvim
 
       # Lisps: REPL, structural motions, and paren inference
       conjure
