@@ -65,6 +65,10 @@ in
       # are the same Diff* groups that diff mode would paint over it.
       mergetool.nvimdiff.layout = "MERGED";
 
+      # The conflicted file can be recovered with `git checkout -m` while the
+      # merge is in progress, so the `.orig` backups are just litter.
+      mergetool.keepBackup = false;
+
       credential.helper = "${git}/bin/git-credential-libsecret";
     };
   };
